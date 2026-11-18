@@ -3,10 +3,40 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>IeltsUp — Master Your IELTS Band Score | Made by Razzakov Yunus</title>
+<title>IeltsUp | Free IELTS Reading Mocks &amp; Band Score Calculator</title>
+
+<!-- Search & sharing -->
+<meta name="description" content="Practise full-length Academic IELTS Reading mock tests with a real timer, instant marking and explanations, train your typing speed with IELTS vocabulary, and work out your overall band with the official rounding rules. Free.">
+<meta name="keywords" content="IELTS reading mock test, IELTS practice, IELTS band score calculator, academic reading, free IELTS test">
+<meta name="author" content="Razzakov Yunus">
+<meta name="robots" content="index, follow">
+<meta property="og:site_name" content="IeltsUp">
+<meta property="og:type" content="website">
+<meta property="og:title" content="IeltsUp | Free IELTS Reading Mocks &amp; Band Score Calculator">
+<meta property="og:description" content="Full-length Academic Reading mocks with a real timer, instant marking and explanations, plus a band score calculator.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IeltsUp | Free IELTS Reading Mocks &amp; Band Score Calculator">
+<meta name="twitter:description" content="Full-length Academic Reading mocks with a real timer, instant marking and explanations, plus a band score calculator.">
+<!-- When the site is online, also add: <meta property="og:url" content="https://YOUR-SITE-ADDRESS/"> and <meta property="og:image" content="https://YOUR-SITE-ADDRESS/share.png"> -->
+
+<!-- Icon & browser colours -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23c8102e'/%3E%3Ctext x='32' y='45' font-size='34' font-weight='800' text-anchor='middle' fill='%23fff' font-family='Georgia%2Cserif' font-style='italic'%3EIu%3C/text%3E%3C/svg%3E">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" id="themeColorMeta" content="#ffffff">
+
+<!-- Apply the saved theme before the first paint (no flash of the wrong theme) -->
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('ieltsup-theme') || 'light';
+      document.documentElement.dataset.theme = t;
+      document.getElementById('themeColorMeta').setAttribute('content', t === 'dark' ? '#0b0f19' : '#ffffff');
+    } catch (e) {}
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800;900&family=Playfair+Display:ital,wght@0,800;1,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800;900&family=Playfair+Display:ital,wght@0,800;1,800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #ffffff;
@@ -612,9 +642,107 @@
     .sim-brand { font-size: 1.4rem; }
     .sim-divider, .sim-title { display: none; }
   }
+
+  /* ===== TYPING PRACTICE ===== */
+  :root { --ty-extra: #8f0a22; --ty-mono: 'JetBrains Mono', 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  [data-theme="dark"] { --ty-extra: #be123c; }
+
+  .modules-grid.three { grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); }
+
+  #typingView { padding: 48px 0 88px; }
+  .ty-wrap { max-width: 1040px; margin: 0 auto; }
+  .ty-head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid var(--bd); padding-bottom: 22px; margin-bottom: 30px; }
+  .ty-head h1 { font-size: clamp(1.8rem, 3.2vw, 2.4rem); font-weight: 900; }
+  .ty-head p { color: var(--mut); font-size: 0.98rem; }
+  .ty-pb { font-weight: 700; font-size: 0.88rem; background: var(--card); border: 1px solid var(--bd); padding: 9px 16px; border-radius: 12px; box-shadow: var(--shadow-sm); }
+  .ty-pb b { color: var(--ac); }
+
+  .ty-config { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px; background: var(--card); border: 1px solid var(--bd); border-radius: 14px; padding: 7px 10px; margin: 0 auto 34px; width: fit-content; max-width: 100%; box-shadow: var(--shadow-sm); }
+  .ty-opt { border: none; background: transparent; color: var(--mut); font: 600 0.85rem 'Inter', sans-serif; padding: 7px 12px; border-radius: 8px; cursor: pointer; transition: color 0.15s, background 0.15s; }
+  .ty-opt:hover { color: var(--fg); }
+  .ty-opt.on { color: var(--ac); background: var(--ac-soft); }
+  .ty-sep { width: 1px; align-self: stretch; background: var(--bd); margin: 4px 6px; }
+  .ty-select { border: none; background: transparent; color: var(--mut); font: 600 0.85rem 'Inter', sans-serif; padding: 7px 8px; border-radius: 8px; cursor: pointer; }
+  .ty-select:hover { color: var(--fg); }
+
+  .ty-stage { position: relative; max-width: 1000px; margin: 0 auto; }
+  .ty-live { height: 52px; display: flex; align-items: center; gap: 22px; font-family: var(--ty-mono); font-weight: 700; font-size: 1.7rem; color: var(--ac); opacity: 0; transition: opacity 0.2s; }
+  .ty-live.on { opacity: 1; }
+  .ty-live small { font-size: 0.85rem; font-weight: 500; color: var(--mut); margin-left: 4px; }
+
+  .ty-box { position: relative; --lh: 2.7rem; overflow: hidden; cursor: text; }
+  .ty-words { position: relative; display: flex; flex-wrap: wrap; font-family: var(--ty-mono); font-size: 1.55rem; line-height: var(--lh); transition: margin-top 0.12s ease, filter 0.2s, opacity 0.2s; user-select: none; -webkit-user-select: none; }
+  .ty-word { height: var(--lh); margin-right: 0.62em; white-space: nowrap; }
+  .ty-word.err { text-decoration: underline; text-decoration-color: var(--ac); text-decoration-thickness: 2px; text-underline-offset: 7px; }
+  .ty-ch { color: var(--mut); opacity: 0.6; }
+  .ty-ch.ok { color: var(--fg); opacity: 1; }
+  .ty-ch.bad { color: var(--ac); opacity: 1; }
+  .ty-ch.extra { color: var(--ty-extra); }
+  .ty-caret { position: absolute; width: 2.5px; border-radius: 2px; background: var(--ac); pointer-events: none; transition: left 0.09s ease, top 0.09s ease; animation: tyBlink 1s steps(1) infinite; }
+  .ty-caret.typing { animation: none; }
+  @keyframes tyBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  .ty-input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; border: none; outline: none; padding: 0; font-size: 16px; color: transparent; caret-color: transparent; background: transparent; cursor: text; z-index: 3; }
+  .ty-focus-msg { position: absolute; inset: 0; display: none; place-items: center; z-index: 2; font-weight: 600; color: var(--fg); pointer-events: none; text-align: center; padding: 0 12px; }
+  .ty-box.blurred .ty-words { filter: blur(5px); opacity: 0.5; }
+  .ty-box.blurred .ty-focus-msg { display: grid; }
+
+  .ty-restart-row { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 30px; }
+  .ty-restart { border: 1px solid var(--bd); background: var(--card); color: var(--mut); font: 600 0.9rem 'Inter', sans-serif; padding: 9px 18px; border-radius: 10px; cursor: pointer; transition: all 0.2s; }
+  .ty-restart:hover, .ty-restart:focus-visible { color: var(--ac); border-color: var(--ac); outline: none; }
+  .ty-hint { font-size: 0.8rem; color: var(--mut); }
+  .ty-hint kbd { font-family: var(--ty-mono); font-size: 0.75rem; background: var(--bg-alt); border: 1px solid var(--bd); border-radius: 5px; padding: 1px 6px; }
+
+  .ty-result { max-width: 1000px; margin: 0 auto; }
+  .ty-res-top { display: grid; grid-template-columns: 190px 1fr; gap: 28px; align-items: stretch; }
+  .ty-big { display: flex; flex-direction: column; justify-content: center; }
+  .ty-big span { font-size: 1.05rem; color: var(--mut); font-weight: 600; }
+  .ty-big b { font-family: var(--ty-mono); font-size: 4rem; line-height: 1.05; color: var(--ac); font-weight: 700; }
+  .ty-big + .ty-big { margin-top: 10px; }
+  .ty-chart { background: var(--card); border: 1px solid var(--bd); border-radius: 16px; padding: 14px 14px 8px; }
+  .ty-chart svg { width: 100%; height: auto; display: block; }
+  .ty-legend { display: flex; gap: 16px; font-size: 0.78rem; color: var(--mut); padding: 4px 6px 2px; }
+  .ty-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+  .ty-res-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-top: 22px; }
+  .ty-stat { background: var(--card); border: 1px solid var(--bd); border-radius: 14px; padding: 14px 16px; }
+  .ty-stat span { display: block; font-size: 0.78rem; color: var(--mut); font-weight: 600; margin-bottom: 4px; }
+  .ty-stat b { font-family: var(--ty-mono); font-size: 1.25rem; }
+  .ty-newpb { display: inline-block; margin-top: 18px; font-weight: 700; font-size: 0.88rem; color: var(--emerald); background: var(--emerald-soft); padding: 7px 14px; border-radius: 999px; }
+  .ty-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 28px; }
+
+  .ty-history { max-width: 1000px; margin: 56px auto 0; }
+  .ty-history-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .ty-history h3 { font-size: 1.15rem; font-weight: 800; }
+  .ty-table-wrap { overflow-x: auto; background: var(--card); border: 1px solid var(--bd); border-radius: 16px; }
+  .ty-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .ty-table th, .ty-table td { text-align: left; padding: 11px 16px; border-bottom: 1px solid var(--bd); white-space: nowrap; }
+  .ty-table th { color: var(--mut); font-weight: 600; font-size: 0.78rem; }
+  .ty-table tr:last-child td { border-bottom: none; }
+  .ty-table td b { font-family: var(--ty-mono); }
+  .ty-empty { padding: 22px; text-align: center; color: var(--mut); font-size: 0.9rem; }
+  .ty-note { max-width: 1000px; margin: 28px auto 0; background: var(--bg-alt); border: 1px solid var(--bd); border-radius: 14px; padding: 16px 20px; color: var(--mut); font-size: 0.9rem; line-height: 1.6; }
+
+  @media (max-width: 920px) {
+    .ty-res-top { grid-template-columns: 1fr; }
+    .ty-big { flex-direction: row; align-items: baseline; gap: 12px; }
+    .ty-big + .ty-big { margin-top: 0; }
+    .ty-big b { font-size: 3rem; }
+  }
+  @media (max-width: 680px) {
+    .ty-words { font-size: 1.2rem; }
+    .ty-box { --lh: 2.2rem; }
+    .ty-live { font-size: 1.35rem; }
+  }
+  :root { --error-dot: #e11d48; }
 </style>
 </head>
 <body>
+
+  <noscript>
+    <div style="position:fixed; inset:0; z-index:99999; display:grid; place-content:center; gap:12px; padding:32px; text-align:center; background:#0b0f19; color:#f8fafc; font-family:system-ui, sans-serif;">
+      <div style="font-family:Georgia, serif; font-size:2.4rem; font-weight:800;">Ielts<i style="color:#f43f5e;">Up</i></div>
+      <p style="font-size:1.15rem; max-width:460px; line-height:1.6;">JavaScript is turned off in your browser. IeltsUp needs it to run the mock tests and the band calculator. Please turn it on and reload this page.</p>
+    </div>
+  </noscript>
 
   <div class="bg-grid"></div>
   <div class="blob blob-1"></div>
@@ -631,6 +759,7 @@
       <nav class="nav-links">
         <a onclick="goToSection('modules')">Practice Modules</a>
         <a onclick="openReadingHub()">Reading Mocks</a>
+        <a onclick="openTyping()">Typing Practice</a>
         <a onclick="goToSection('calculator')">Band Calculator</a>
         <a onclick="goToSection('about')">About Platform</a>
       </nav>
@@ -688,7 +817,7 @@
           <h2>Practice Modules</h2>
           <p style="color:var(--mut);">Train under authentic exam conditions with our dedicated preparation hubs.</p>
         </div>
-        <div class="modules-grid" style="max-width:860px; margin:0 auto;">
+        <div class="modules-grid three" style="max-width:1100px; margin:0 auto;">
           <div class="mod-card" style="border-color:var(--ac);">
             <div>
               <div class="mod-top">
@@ -699,6 +828,17 @@
               <p>Practice with full-length Academic Reading tests containing 3 passages and 40 questions per test. Includes instant checking, scoring, and detailed explanations.</p>
             </div>
             <button class="mod-btn" onclick="openReadingHub()">Open Reading Mocks →</button>
+          </div>
+          <div class="mod-card">
+            <div>
+              <div class="mod-top">
+                <div class="mod-icon" style="background:var(--emerald-soft); color:var(--emerald);">⌨️</div>
+                <span class="status-tag">Live</span>
+              </div>
+              <h3>Typing Practice</h3>
+              <p>Timed, word-count and sentence tests with IELTS vocabulary. See your WPM, accuracy, consistency and a speed chart after every test.</p>
+            </div>
+            <button class="mod-btn" onclick="openTyping()">Open Typing Practice →</button>
           </div>
           <div class="mod-card" style="opacity:0.85; background:var(--bg-alt);">
             <div>
@@ -795,6 +935,56 @@
     </div>
   </section>
 
+  <!-- TYPING PRACTICE VIEW -->
+  <section id="typingView" class="hidden-view">
+    <div class="container">
+      <div class="ty-wrap">
+        <div class="ty-head">
+          <div>
+            <button class="btn-secondary" onclick="showHomeView()" style="margin-bottom:14px;">← Back to Homepage</button>
+            <h1>Typing Practice</h1>
+            <p>Build typing speed and accuracy with IELTS vocabulary. Start typing to begin the test.</p>
+          </div>
+          <div class="ty-pb" id="tyPb"></div>
+        </div>
+
+        <div class="ty-config" id="tyConfig" role="group" aria-label="Test settings"></div>
+
+        <div id="tyTest">
+          <div class="ty-stage">
+            <div class="ty-live" id="tyLive" aria-live="off">
+              <span id="tyLiveMain">30</span>
+              <span id="tyLiveWpm">0<small>wpm</small></span>
+            </div>
+            <div class="ty-box blurred" id="tyBox">
+              <div class="ty-focus-msg">Click here or press any key to focus</div>
+              <div class="ty-words" id="tyWords"></div>
+              <input class="ty-input" id="tyInput" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Type the words shown here">
+            </div>
+          </div>
+          <div class="ty-restart-row">
+            <button class="ty-restart" id="tyRestart" type="button" onclick="tyReset(true)">↻ Restart test</button>
+            <div class="ty-hint"><kbd>Tab</kbd> + <kbd>Enter</kbd> to restart</div>
+          </div>
+        </div>
+
+        <div id="tyResult" class="ty-result hidden-view"></div>
+
+        <div class="ty-history">
+          <div class="ty-history-head">
+            <h3>Recent tests</h3>
+            <button class="btn-secondary" type="button" onclick="tyClearHistory()" style="padding:6px 12px; font-size:0.82rem;">Clear history</button>
+          </div>
+          <div class="ty-table-wrap" id="tyHistory"></div>
+        </div>
+
+        <div class="ty-note">
+          <b style="color:var(--fg);">Why practise typing for IELTS?</b> On the computer-delivered test you type your Writing answers and enter your Reading and Listening answers on screen. When typing feels automatic, you spend your time planning and checking instead of searching for keys. Speed is measured the standard way: every 5 characters count as one word, and only correctly typed words count towards your WPM.
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- SIMULATOR VIEW -->
   <div id="readingSimView" class="hidden-view">
     <div class="sim-topbar">
@@ -838,24 +1028,29 @@
   function setTheme(t) {
     document.documentElement.dataset.theme = t;
     themeBtn.textContent = t === 'dark' ? '☀️' : '🌙';
-    localStorage.setItem('ieltsup-theme', t);
+    document.getElementById('themeColorMeta').setAttribute('content', t === 'dark' ? '#0b0f19' : '#ffffff');
+    try { localStorage.setItem('ieltsup-theme', t); } catch (e) {}
   }
   themeBtn.addEventListener('click', () => {
     setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
   });
-  setTheme(localStorage.getItem('ieltsup-theme') || 'light');
+  setTheme(document.documentElement.dataset.theme || 'light');
 
   /* Navigation Views */
   function showHomeView() {
     document.getElementById('homeView').classList.remove('hidden-view');
     document.getElementById('readingHubView').classList.add('hidden-view');
     document.getElementById('readingSimView').classList.add('hidden-view');
+    document.getElementById('typingView').classList.add('hidden-view');
+    tyStop();
     document.getElementById('mainHeader').classList.remove('hidden-view');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function openReadingHub() {
     document.getElementById('homeView').classList.add('hidden-view');
+    document.getElementById('typingView').classList.add('hidden-view');
+    tyStop();
     document.getElementById('readingSimView').classList.add('hidden-view');
     document.getElementById('readingHubView').classList.remove('hidden-view');
     document.getElementById('mainHeader').classList.remove('hidden-view');
@@ -1547,6 +1742,633 @@ Bellerby's father finally did receive his eightieth birthday present, albeit two
 
   document.getElementById('passagePane').addEventListener('scroll', hideHlToolbar, { passive: true });
   window.addEventListener('resize', hideHlToolbar);
+
+  /* =====================================================================
+     TYPING PRACTICE
+     ===================================================================== */
+  const TY_LISTS = {
+    common: {
+      label: 'Common English',
+      words: ('the be to of and a in that have it for not on with he as you do at this but his by from they we say her she or an will my one all would there their what so up out if about who get which go me when make can like time no just him know take people into year your good some could them see other than then now look only come its over think also back after use two how our work first well way even new want because any these give day most us').split(' ')
+        .concat(('great between need large often hand high place hold turn move live point city play small number off always next night open seem together white children begin got walk example ease paper group important until mountain river carry state once book hear stop without second later miss idea enough eat face watch far real almost let above girl sometimes mountains cut young talk soon list song being leave family body music color stand sun questions fish area mark dog horse birds problem complete room knew since ever piece told usually friends easy heard order red door sure become top ship across today during short better best however low hours black products happened whole measure remember early waves reached listen wind rock space covered fast several hold himself toward five step morning passed vowel true hundred against pattern numeral table north slowly money map farm pulled draw voice seen cold cried plan notice south sing war ground fall king town unit figure certain field travel wood fire upon').split(' '))
+    },
+    academic: {
+      label: 'Academic vocabulary',
+      words: ('analyse approach assess assume authority benefit concept consistent constitute context contract create data define derive distribute economy environment establish estimate evidence factor finance formula function identify income indicate individual interpret involve issue labour legal legislate major method occur percent period policy principle procedure process require research response role section sector significant similar source specific structure theory variable aspect bias capacity category challenge circumstance comprehensive contribute controversy criteria demonstrate dimension emphasis enormous ensure framework generate hypothesis impact implement implication incorporate initiative inevitable innovation integrate investigate justify maintain mechanism negotiate objective outcome perspective phenomenon potential predominantly priority proportion reinforce restrict sustain tendency transform undertake widespread allocate coherent compensate consequence considerable constraint contemporary contrast deduce displace diversity eliminate evaluate exclude explicit facilitate fluctuate hierarchy illustrate inherent migrate monitor notion obtain participate precise reliable resolve scenario stability trend underlying').split(' ')
+    },
+    spelling: {
+      label: 'Spelling traps',
+      words: ('accommodation achievement acquire address advertisement argument available beginning believe business calendar category committee communicate convenient definitely develop disappear discipline embarrass environment equipment especially exaggerate existence experience familiar february foreign fulfil government guarantee harass height immediately independent interrupt knowledge library lightning maintenance millennium necessary neighbour noticeable occasion occurred parallel particular persuade possession preferred privilege professor pronunciation receive recommend reference relevant restaurant rhythm schedule separate successful surprise temperature tomorrow truly twelfth unfortunately until vacuum vocabulary wednesday weird withdraw behaviour colour favourite organisation programme theatre centre jewellery licence practise queue enthusiasm questionnaire entrepreneur thorough through although throughout adolescent amateur bureaucracy conscience curiosity dilemma exhilarate fluorescent gauge hygiene irrelevant liaison mischievous nuisance occurrence perseverance ridiculous sincerely subtle tyranny unnecessary').split(' ')
+    },
+    topics: {
+      label: 'Topic vocabulary',
+      words: ('environment pollution climate renewable deforestation recycling sustainable technology internet software artificial intelligence digital privacy education curriculum university scholarship graduate tuition health nutrition exercise obesity medicine healthcare vaccine transport commuter congestion pedestrian infrastructure tourism tourist heritage culture tradition globalisation immigration community urbanisation population employment salary career unemployment workplace economy inflation wealth poverty crime punishment justice media advertising celebrity journalism entertainment architecture museum wildlife extinction habitat conservation agriculture harvest drought earthquake government election democracy legislation taxation volunteer charity relationship generation childhood retirement lifestyle consumer fashion shopping advertisement transportation electricity pollution emission carbon fossil recycle landfill packaging biodiversity ecosystem greenhouse temperature researcher laboratory experiment discovery invention engineer scientist mobile smartphone social network streaming broadband cybersecurity').split(' ')
+    }
+  };
+
+  const TY_QUOTES = {
+    short: [
+      'Consistent practice beats occasional effort, so read a little every single day.',
+      'A calm mind reads faster, writes clearer sentences and makes fewer careless mistakes.',
+      'Good vocabulary is built slowly, one useful word at a time.',
+      'Skim the passage first, then hunt for the answers with a clear plan.',
+      'Accuracy comes first and speed follows, because fast typing means little if the words are wrong.'
+    ],
+    medium: [
+      'Before you begin writing, spend a few minutes planning your answer. A clear structure with an introduction, two strong body paragraphs and a short conclusion will help the examiner follow your ideas easily.',
+      'Reading under time pressure is a skill, not a talent. Practise with a timer, check your mistakes carefully, and notice which question types cost you the most marks, then train those first.',
+      'Cities around the world are changing quickly as more people move away from rural areas. Governments must now balance housing, transport and green space while keeping life affordable for everyone.'
+    ],
+    long: [
+      'Learning a language is a bit like building a house. First you need solid foundations, which means common words and simple grammar that you can use without thinking. Then you add walls and a roof with longer sentences, linking words and a wider range of vocabulary. Finally, you decorate with idioms and precise expressions, but none of that stays standing without daily practice.',
+      'Technology has transformed education in ways that earlier generations could hardly have imagined. Students can now attend lessons from distant countries, watch recorded explanations whenever they like and receive instant feedback on their work. However, the same tools can distract learners, so the real challenge is to use them with discipline rather than letting them control the day.'
+    ]
+  };
+
+  const TY_DEFAULTS = { mode: 'time', time: 30, words: 25, quote: 'medium', list: 'common', punct: false, nums: false };
+
+  function tyLoad(key, fallback) {
+    try { const v = JSON.parse(localStorage.getItem(key)); return v == null ? fallback : v; } catch (e) { return fallback; }
+  }
+  function tySave(key, val) {
+    try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {}
+  }
+
+  const ty = {
+    cfg: Object.assign({}, TY_DEFAULTS, tyLoad('ieltsup-typing-cfg', {})),
+    words: [], typed: [], els: [], idx: 0,
+    started: false, finished: false, startTime: 0, timerId: null,
+    keys: 0, keysOk: 0, keysBad: 0, secKeys: 0, secErr: 0,
+    samples: [], lastSec: 0,
+    offset: 0, lh: 44,
+    sentLeft: 0, capNext: true,
+    inited: false
+  };
+  if (!TY_LISTS[ty.cfg.list]) ty.cfg.list = 'common';
+
+  const tyEl = id => document.getElementById(id);
+  const tyInput = tyEl('tyInput');
+  const tyBox = tyEl('tyBox');
+  const tyWordsEl = tyEl('tyWords');
+  const tyCaretEl = document.createElement('div');
+  tyCaretEl.className = 'ty-caret';
+
+  /* ---------- word generation ---------- */
+  function tyRand(n) { return Math.floor(Math.random() * n); }
+
+  function tyGenWords(n) {
+    const pool = TY_LISTS[ty.cfg.list].words;
+    const out = [];
+    let prev = ty.words.length ? ty.words[ty.words.length - 1].toLowerCase() : '';
+    for (let i = 0; i < n; i++) {
+      let w;
+      if (ty.cfg.nums && Math.random() < 0.12) {
+        w = String(tyRand(Math.pow(10, 1 + tyRand(4))));
+      } else {
+        do { w = pool[tyRand(pool.length)]; } while (w === prev && pool.length > 1);
+      }
+      prev = w;
+      if (ty.cfg.punct) {
+        if (ty.sentLeft <= 0) { ty.sentLeft = 5 + tyRand(8); ty.capNext = true; }
+        if (ty.capNext && /^[a-z]/.test(w)) w = w.charAt(0).toUpperCase() + w.slice(1);
+        ty.capNext = false;
+        ty.sentLeft--;
+        if (ty.sentLeft <= 0) {
+          const r = Math.random();
+          w += r < 0.8 ? '.' : (r < 0.9 ? '?' : '!');
+          ty.capNext = true;
+        } else if (Math.random() < 0.12) {
+          w += ',';
+        }
+      }
+      out.push(w);
+    }
+    return out;
+  }
+
+  function tyBuildTestWords() {
+    ty.sentLeft = 0; ty.capNext = true;
+    ty.words = [];
+    if (ty.cfg.mode === 'quote') {
+      const list = TY_QUOTES[ty.cfg.quote];
+      ty.words = list[tyRand(list.length)].split(' ');
+    } else if (ty.cfg.mode === 'words') {
+      ty.words = tyGenWords(ty.cfg.words);
+    } else {
+      ty.words = tyGenWords(110);
+    }
+  }
+
+  /* ---------- rendering ---------- */
+  function tyDrawWord(i) {
+    const w = ty.words[i];
+    const t = ty.typed[i] || '';
+    const el = ty.els[i];
+    if (!el) return;
+    let html = '';
+    const max = Math.max(w.length, t.length);
+    for (let k = 0; k < max; k++) {
+      if (k < w.length) {
+        const cls = k < t.length ? (t[k] === w[k] ? 'ok' : 'bad') : '';
+        html += `<span class="ty-ch ${cls}">${esc(w[k])}</span>`;
+      } else {
+        html += `<span class="ty-ch bad extra">${esc(t[k])}</span>`;
+      }
+    }
+    el.innerHTML = html;
+    el.classList.toggle('err', i < ty.idx && t !== w);
+  }
+
+  function tyAppendWordEls(from) {
+    const frag = document.createDocumentFragment();
+    for (let i = from; i < ty.words.length; i++) {
+      const d = document.createElement('div');
+      d.className = 'ty-word';
+      ty.els[i] = d;
+      frag.appendChild(d);
+    }
+    tyWordsEl.insertBefore(frag, tyCaretEl.parentNode === tyWordsEl ? tyCaretEl : null);
+    for (let i = from; i < ty.words.length; i++) tyDrawWord(i);
+  }
+
+  function tyMeasure() {
+    const first = ty.els[0];
+    if (!first) return;
+    ty.lh = first.offsetHeight || 44;
+    tyBox.style.height = (ty.lh * 3) + 'px';
+  }
+
+  function tyApplyOffset() {
+    tyWordsEl.style.marginTop = (-ty.offset) + 'px';
+  }
+
+  function tyScroll() {
+    const el = ty.els[ty.idx];
+    if (!el) return;
+    const top = el.offsetTop;
+    const line = Math.round((top - ty.offset) / ty.lh);
+    if (line >= 2) { ty.offset = top - ty.lh; tyApplyOffset(); }
+    else if (line < 0) { ty.offset = top; tyApplyOffset(); }
+  }
+
+  function tyCaret() {
+    const el = ty.els[ty.idx];
+    if (!el || !el.children.length) return;
+    const t = ty.typed[ty.idx] || '';
+    const spans = el.children;
+    const base = tyWordsEl.getBoundingClientRect();
+    let r, left;
+    if (t.length < spans.length) {
+      r = spans[t.length].getBoundingClientRect();
+      left = r.left - base.left;
+    } else {
+      r = spans[spans.length - 1].getBoundingClientRect();
+      left = r.right - base.left;
+    }
+    const h = ty.lh * 0.62;
+    tyCaretEl.style.height = h + 'px';
+    tyCaretEl.style.left = (left - 1) + 'px';
+    tyCaretEl.style.top = (r.top - base.top + (r.height - h) / 2) + 'px';
+  }
+
+  function tyRenderAll() {
+    ty.els = [];
+    tyWordsEl.innerHTML = '';
+    tyWordsEl.appendChild(tyCaretEl);
+    tyAppendWordEls(0);
+    ty.offset = 0;
+    tyApplyOffset();
+    tyMeasure();
+    tyCaret();
+  }
+
+  /* ---------- config bar ---------- */
+  function tyConfigHtml() {
+    const c = ty.cfg;
+    const btn = (attr, val, label, on) => `<button type="button" class="ty-opt ${on ? 'on' : ''}" data-${attr}="${val}">${label}</button>`;
+    let h = '';
+    if (c.mode !== 'quote') {
+      h += btn('toggle', 'punct', '@ punctuation', c.punct);
+      h += btn('toggle', 'nums', '# numbers', c.nums);
+      h += '<span class="ty-sep"></span>';
+    }
+    h += btn('mode', 'time', '⏱ time', c.mode === 'time');
+    h += btn('mode', 'words', 'A words', c.mode === 'words');
+    h += btn('mode', 'quote', '❝ quote', c.mode === 'quote');
+    h += '<span class="ty-sep"></span>';
+    if (c.mode === 'time') [15, 30, 60, 120].forEach(v => { h += btn('time', v, v, c.time === v); });
+    if (c.mode === 'words') [10, 25, 50, 100].forEach(v => { h += btn('words', v, v, c.words === v); });
+    if (c.mode === 'quote') ['short', 'medium', 'long'].forEach(v => { h += btn('quote', v, v, c.quote === v); });
+    if (c.mode !== 'quote') {
+      h += '<span class="ty-sep"></span>';
+      h += '<select class="ty-select" id="tyList" aria-label="Word list">' +
+        Object.keys(TY_LISTS).map(k => `<option value="${k}" ${c.list === k ? 'selected' : ''}>${TY_LISTS[k].label}</option>`).join('') +
+        '</select>';
+    }
+    return h;
+  }
+
+  function tyRenderConfig() {
+    tyEl('tyConfig').innerHTML = tyConfigHtml();
+  }
+
+  tyEl('tyConfig').addEventListener('click', e => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    const c = ty.cfg;
+    if (b.dataset.toggle) c[b.dataset.toggle] = !c[b.dataset.toggle];
+    else if (b.dataset.mode) c.mode = b.dataset.mode;
+    else if (b.dataset.time) c.time = parseInt(b.dataset.time, 10);
+    else if (b.dataset.words) c.words = parseInt(b.dataset.words, 10);
+    else if (b.dataset.quote) c.quote = b.dataset.quote;
+    else return;
+    tySave('ieltsup-typing-cfg', c);
+    tyReset(true);
+  });
+  tyEl('tyConfig').addEventListener('change', e => {
+    if (e.target.id === 'tyList') {
+      ty.cfg.list = e.target.value;
+      tySave('ieltsup-typing-cfg', ty.cfg);
+      tyReset(true);
+    }
+  });
+
+  /* ---------- test lifecycle ---------- */
+  function tyTestKey() {
+    const c = ty.cfg;
+    return c.mode + '-' + (c.mode === 'time' ? c.time : c.mode === 'words' ? c.words : c.quote);
+  }
+  function tyTestLabel() {
+    const c = ty.cfg;
+    if (c.mode === 'time') return 'time ' + c.time + 's';
+    if (c.mode === 'words') return 'words ' + c.words;
+    return 'quote ' + c.quote;
+  }
+
+  function tyStop() {
+    clearInterval(ty.timerId);
+    ty.timerId = null;
+  }
+
+  function tyReset(newWords) {
+    tyStop();
+    if (newWords || !ty.words.length) tyBuildTestWords();
+    ty.typed = [];
+    ty.idx = 0;
+    ty.started = false;
+    ty.finished = false;
+    ty.keys = ty.keysOk = ty.keysBad = ty.secKeys = ty.secErr = 0;
+    ty.samples = [];
+    ty.lastSec = 0;
+    tyInput.value = '';
+    tyInput.disabled = false;
+
+    tyRenderConfig();
+    tyRenderPb();
+    tyRenderHistory();
+    tyEl('tyResult').classList.add('hidden-view');
+    tyEl('tyTest').classList.remove('hidden-view');
+    tyEl('tyLive').classList.remove('on');
+    tyUpdateLive(0, 0);
+    tyRenderAll();
+    tyCaretEl.classList.remove('typing');
+    tyFocus();
+  }
+
+  function tyFocus() {
+    if (tyEl('typingView').classList.contains('hidden-view')) return;
+    tyInput.focus({ preventScroll: true });
+    tyBox.classList.toggle('blurred', document.activeElement !== tyInput);
+  }
+
+  function tyViewOpen() {
+    return !tyEl('typingView').classList.contains('hidden-view');
+  }
+
+  function tyBeginTest() {
+    ty.started = true;
+    ty.startTime = performance.now();
+    ty.lastSec = 0;
+    ty.secKeys = 0;
+    ty.secErr = 0;
+    tyEl('tyLive').classList.add('on');
+    tyCaretEl.classList.add('typing');
+    ty.timerId = setInterval(tyTick, 100);
+  }
+
+  function tyUpdateLive(elapsed, wpm) {
+    const c = ty.cfg;
+    let main;
+    if (c.mode === 'time') main = Math.max(0, Math.ceil(c.time - elapsed));
+    else main = Math.min(ty.idx, ty.words.length) + '/' + ty.words.length;
+    tyEl('tyLiveMain').textContent = main;
+    tyEl('tyLiveWpm').innerHTML = Math.round(wpm) + '<small>wpm</small>';
+  }
+
+  function tyTick() {
+    if (!ty.started || ty.finished) return;
+    const elapsed = (performance.now() - ty.startTime) / 1000;
+    const sec = Math.floor(elapsed);
+    if (ty.cfg.mode === 'time' && elapsed >= ty.cfg.time) { tyFinish(); return; }
+    if (sec > ty.lastSec) {
+      tyTakeSample(sec);
+      ty.lastSec = sec;
+    }
+    const wpm = ty.samples.length ? ty.samples[ty.samples.length - 1].wpm : 0;
+    tyUpdateLive(elapsed, wpm);
+  }
+
+  /* ---------- stats ---------- */
+  function tyCalc(elapsed) {
+    let correctWordChars = 0, correctSpaces = 0, allChars = 0;
+    let cc = 0, ic = 0, ex = 0, ms = 0;
+    for (let i = 0; i <= ty.idx && i < ty.words.length; i++) {
+      const t = ty.typed[i] || '';
+      const w = ty.words[i];
+      const committed = i < ty.idx;
+      if (!committed && t === '') continue;
+      const minL = Math.min(t.length, w.length);
+      for (let k = 0; k < minL; k++) { if (t[k] === w[k]) cc++; else ic++; }
+      if (t.length > w.length) ex += t.length - w.length;
+      if (committed && t.length < w.length) ms += w.length - t.length;
+      allChars += t.length;
+      if (t === w) {
+        correctWordChars += w.length;
+        if (committed) correctSpaces++;
+      }
+      if (committed) allChars++;
+    }
+    const minutes = Math.max(elapsed, 0.001) / 60;
+    return {
+      wpm: (correctWordChars + correctSpaces) / 5 / minutes,
+      raw: allChars / 5 / minutes,
+      correct: cc, incorrect: ic, extra: ex, missed: ms
+    };
+  }
+
+  function tyTakeSample(sec) {
+    const s = tyCalc(sec);
+    ty.samples.push({ t: sec, wpm: s.wpm, raw: ty.secKeys * 12, err: ty.secErr });
+    ty.secKeys = 0;
+    ty.secErr = 0;
+  }
+
+  function tyConsistency(samples) {
+    const v = samples.map(s => s.raw);
+    if (v.length < 2) return 100;
+    const mean = v.reduce((a, b) => a + b, 0) / v.length;
+    if (mean <= 0) return 0;
+    const sd = Math.sqrt(v.reduce((a, b) => a + (b - mean) * (b - mean), 0) / v.length);
+    const cov = sd / mean;
+    return Math.max(0, Math.min(100, 100 * (1 - Math.tanh(cov + Math.pow(cov, 3) / 3 + Math.pow(cov, 5) / 5))));
+  }
+
+  /* ---------- typing input ---------- */
+  function tySetTyped(v) {
+    if (ty.finished) return;
+    const w = ty.words[ty.idx];
+    v = v.slice(0, w.length + 19);
+    const old = ty.typed[ty.idx] || '';
+    if (!ty.started && v.length > 0) tyBeginTest();
+    let p = 0;
+    while (p < old.length && p < v.length && old[p] === v[p]) p++;
+    for (let k = p; k < v.length; k++) {
+      ty.keys++;
+      ty.secKeys++;
+      if (k < w.length && v[k] === w[k]) ty.keysOk++;
+      else { ty.keysBad++; ty.secErr++; }
+    }
+    ty.typed[ty.idx] = v;
+    if (tyInput.value !== v) tyInput.value = v;
+    tyDrawWord(ty.idx);
+    tyCaret();
+    const isLast = ty.idx === ty.words.length - 1;
+    if (ty.cfg.mode !== 'time' && isLast && v.length >= w.length && v.length > 0) tyFinish();
+  }
+
+  function tyCommitWord() {
+    const t = ty.typed[ty.idx] || '';
+    const w = ty.words[ty.idx];
+    if (t.length === 0) return;
+    ty.keys++;
+    ty.secKeys++;
+    if (t === w) ty.keysOk++;
+    else { ty.keysBad++; ty.secErr++; }
+    ty.idx++;
+    tyDrawWord(ty.idx - 1);
+    if (ty.cfg.mode === 'time' && ty.idx > ty.words.length - 45) {
+      const from = ty.words.length;
+      ty.words = ty.words.concat(tyGenWords(60));
+      tyAppendWordEls(from);
+    }
+    tyScroll();
+    tyCaret();
+    if (ty.cfg.mode !== 'time') tyUpdateLive((performance.now() - ty.startTime) / 1000, ty.samples.length ? ty.samples[ty.samples.length - 1].wpm : 0);
+  }
+
+  tyInput.addEventListener('input', () => {
+    if (ty.finished) { tyInput.value = ''; return; }
+    let val = tyInput.value;
+    while (!ty.finished) {
+      const sp = val.indexOf(' ');
+      if (sp === -1) break;
+      const part = val.slice(0, sp);
+      const rest = val.slice(sp + 1);
+      if (part.length === 0 && (ty.typed[ty.idx] || '') === '') { val = rest; continue; }
+      tySetTyped(part);
+      if (ty.finished) break;
+      tyCommitWord();
+      val = rest;
+    }
+    if (ty.finished) { tyInput.value = ''; return; }
+    tyInput.value = val;
+    tySetTyped(val);
+  });
+
+  tyInput.addEventListener('keydown', e => {
+    if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(e.key)) { e.preventDefault(); return; }
+    if (e.key === 'Enter') { e.preventDefault(); return; }
+    if (e.key === 'Backspace' && tyInput.value === '' && ty.idx > 0 && !ty.finished) {
+      const prev = ty.idx - 1;
+      if ((ty.typed[prev] || '') !== ty.words[prev]) {
+        e.preventDefault();
+        ty.idx = prev;
+        tyDrawWord(prev);
+        tyInput.value = ty.typed[prev] || '';
+        const n = tyInput.value.length;
+        try { tyInput.setSelectionRange(n, n); } catch (err) {}
+        tyScroll();
+        tyCaret();
+      }
+    }
+  });
+  tyInput.addEventListener('paste', e => e.preventDefault());
+  tyInput.addEventListener('drop', e => e.preventDefault());
+  tyInput.addEventListener('focus', () => tyBox.classList.remove('blurred'));
+  tyInput.addEventListener('blur', () => { if (!ty.finished) tyBox.classList.add('blurred'); });
+
+  // Start typing from anywhere on the page
+  document.addEventListener('keydown', e => {
+    if (!tyViewOpen()) return;
+    const a = document.activeElement;
+    const inField = a && (a.tagName === 'INPUT' || a.tagName === 'SELECT' || a.tagName === 'TEXTAREA');
+    if (ty.finished) {
+      if (e.key === 'Enter' && !(a && a.tagName === 'BUTTON')) { e.preventDefault(); tyReset(true); }
+      return;
+    }
+    if (inField) return;
+    if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) tyInput.focus({ preventScroll: true });
+  });
+
+  window.addEventListener('resize', () => {
+    if (!tyViewOpen() || !ty.els.length) return;
+    tyMeasure();
+    ty.offset = 0;
+    tyApplyOffset();
+    tyScroll();
+    tyCaret();
+  });
+
+  /* ---------- results ---------- */
+  function tyChartSvg(samples) {
+    const W = 760, H = 230, L = 44, R = 40, T = 14, B = 30;
+    if (samples.length < 2) {
+      return `<div class="ty-empty">Not enough data for a chart. Try a test that lasts at least a few seconds.</div>`;
+    }
+    const maxT = samples[samples.length - 1].t;
+    const rawMax = Math.max(...samples.map(s => Math.max(s.wpm, s.raw)), 10);
+    const yMax = Math.ceil(rawMax / 20) * 20;
+    const eMax = Math.max(...samples.map(s => s.err), 1);
+    const x = t => L + (t / maxT) * (W - L - R);
+    const y = v => T + (1 - v / yMax) * (H - T - B);
+    const ye = v => T + (1 - v / eMax) * (H - T - B);
+    let g = '';
+    for (let i = 0; i <= 4; i++) {
+      const v = (yMax / 4) * i;
+      g += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" style="stroke:var(--bd)" stroke-width="1"/>`;
+      g += `<text x="${L - 8}" y="${y(v) + 4}" text-anchor="end" font-size="11" style="fill:var(--mut)">${Math.round(v)}</text>`;
+    }
+    const step = Math.max(1, Math.ceil(maxT / 8));
+    for (let t = 0; t <= maxT; t += step) {
+      g += `<text x="${x(t)}" y="${H - 8}" text-anchor="middle" font-size="11" style="fill:var(--mut)">${t}</text>`;
+    }
+    const pts = key => samples.map(s => `${x(s.t).toFixed(1)},${y(s[key]).toFixed(1)}`).join(' ');
+    const errs = samples.filter(s => s.err > 0).map(s => `<circle cx="${x(s.t).toFixed(1)}" cy="${ye(s.err).toFixed(1)}" r="3.2" style="fill:var(--error-dot)"/>`).join('');
+    g += `<text x="${W - R + 10}" y="${T + 4}" font-size="11" style="fill:var(--mut)">${eMax}</text>`;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Typing speed over time">
+      ${g}
+      <polyline points="${pts('raw')}" fill="none" style="stroke:var(--mut)" stroke-width="2" stroke-linejoin="round" opacity="0.7"/>
+      <polyline points="${pts('wpm')}" fill="none" style="stroke:var(--ac)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      ${errs}
+    </svg>
+    <div class="ty-legend"><span><i style="background:var(--ac)"></i>wpm</span><span><i style="background:var(--mut)"></i>raw</span><span><i style="background:var(--error-dot)"></i>errors</span></div>`;
+  }
+
+  function tyFinish() {
+    if (ty.finished) return;
+    ty.finished = true;
+    tyStop();
+    tyInput.blur();
+    tyBox.classList.remove('blurred');
+
+    const c = ty.cfg;
+    let elapsed = ty.started ? (performance.now() - ty.startTime) / 1000 : 0;
+    if (c.mode === 'time' && elapsed > c.time) elapsed = c.time;
+    if (elapsed < 0.05) elapsed = 0.05;
+
+    // closing sample for the last partial second
+    const frac = elapsed - ty.lastSec;
+    if (frac >= 0.5 && elapsed > 1) {
+      const s = tyCalc(elapsed);
+      ty.samples.push({ t: Math.round(elapsed), wpm: s.wpm, raw: ty.secKeys * 60 / 5 / frac, err: ty.secErr });
+    }
+    const st = tyCalc(elapsed);
+    const acc = ty.keys ? (ty.keysOk / ty.keys) * 100 : 0;
+    const cons = tyConsistency(ty.samples);
+
+    const key = tyTestKey();
+    const pbs = tyLoad('ieltsup-typing-pb', {});
+    const prev = pbs[key];
+    const isPb = st.wpm > 0 && (!prev || st.wpm > prev.wpm);
+    if (isPb) {
+      pbs[key] = { wpm: Math.round(st.wpm * 10) / 10, acc: Math.round(acc * 10) / 10 };
+      tySave('ieltsup-typing-pb', pbs);
+    }
+    const hist = tyLoad('ieltsup-typing-history', []);
+    hist.unshift({
+      d: Date.now(), test: tyTestLabel(), wpm: Math.round(st.wpm * 10) / 10,
+      raw: Math.round(st.raw * 10) / 10, acc: Math.round(acc * 10) / 10, cons: Math.round(cons)
+    });
+    tySave('ieltsup-typing-history', hist.slice(0, 20));
+
+    tyEl('tyTest').classList.add('hidden-view');
+    const res = tyEl('tyResult');
+    res.classList.remove('hidden-view');
+    res.innerHTML = `
+      <div class="ty-res-top">
+        <div>
+          <div class="ty-big"><span>wpm</span><b>${Math.round(st.wpm)}</b></div>
+          <div class="ty-big"><span>accuracy</span><b>${Math.round(acc)}%</b></div>
+        </div>
+        <div class="ty-chart">${tyChartSvg(ty.samples)}</div>
+      </div>
+      <div class="ty-res-stats">
+        <div class="ty-stat"><span>test type</span><b style="font-size:1rem;">${esc(tyTestLabel())}${c.mode !== 'quote' ? '<br>' + esc(TY_LISTS[c.list].label.toLowerCase()) : ''}</b></div>
+        <div class="ty-stat"><span>raw wpm</span><b>${Math.round(st.raw)}</b></div>
+        <div class="ty-stat"><span>chars: ok / wrong / extra / missed</span><b title="correct / incorrect / extra / missed">${st.correct}/${st.incorrect}/${st.extra}/${st.missed}</b></div>
+        <div class="ty-stat"><span>consistency</span><b>${Math.round(cons)}%</b></div>
+        <div class="ty-stat"><span>time</span><b>${elapsed >= 10 ? Math.round(elapsed) : elapsed.toFixed(1)}s</b></div>
+      </div>
+      <div style="text-align:center;">${isPb ? '<span class="ty-newpb">★ New personal best for this test!</span>' : (prev ? `<span class="ty-hint">Your best for this test: ${prev.wpm} wpm</span>` : '')}</div>
+      <div class="ty-actions">
+        <button class="btn-primary" type="button" id="tyNextBtn" onclick="tyReset(true)">Next test ⏎</button>
+        <button class="btn-secondary" type="button" onclick="tyReset(false)">↻ Repeat this test</button>
+      </div>`;
+    tyRenderPb();
+    tyRenderHistory();
+    const nb = tyEl('tyNextBtn');
+    if (nb) nb.focus({ preventScroll: true });
+  }
+
+  /* ---------- personal best + history ---------- */
+  function tyRenderPb() {
+    const pb = tyLoad('ieltsup-typing-pb', {})[tyTestKey()];
+    tyEl('tyPb').innerHTML = pb ? `Best · ${esc(tyTestLabel())}: <b>${pb.wpm} wpm</b> · ${pb.acc}%` : `No best yet for ${esc(tyTestLabel())}`;
+  }
+
+  function tyRenderHistory() {
+    const hist = tyLoad('ieltsup-typing-history', []);
+    const box = tyEl('tyHistory');
+    if (!hist.length) {
+      box.innerHTML = '<div class="ty-empty">Your finished tests will appear here.</div>';
+      return;
+    }
+    box.innerHTML = `<table class="ty-table"><thead><tr><th>Date</th><th>Test</th><th>WPM</th><th>Raw</th><th>Accuracy</th><th>Consistency</th></tr></thead><tbody>` +
+      hist.slice(0, 8).map(h => {
+        const d = new Date(h.d);
+        const date = d.toLocaleDateString(undefined, { day: 'numeric', month: 'short' }) + ' ' + d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+        return `<tr><td>${esc(date)}</td><td>${esc(h.test)}</td><td><b>${h.wpm}</b></td><td>${h.raw}</td><td>${h.acc}%</td><td>${h.cons}%</td></tr>`;
+      }).join('') + `</tbody></table>`;
+  }
+
+  function tyClearHistory() {
+    if (!confirm('Clear your typing history and personal bests on this device?')) return;
+    tySave('ieltsup-typing-history', []);
+    tySave('ieltsup-typing-pb', {});
+    tyRenderPb();
+    tyRenderHistory();
+  }
+
+  /* ---------- navigation ---------- */
+  function openTyping() {
+    document.getElementById('homeView').classList.add('hidden-view');
+    document.getElementById('readingHubView').classList.add('hidden-view');
+    document.getElementById('readingSimView').classList.add('hidden-view');
+    document.getElementById('mainHeader').classList.remove('hidden-view');
+    tyEl('typingView').classList.remove('hidden-view');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    tyReset(true);
+  }
 </script>
 </body>
 </html>
